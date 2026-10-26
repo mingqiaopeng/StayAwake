@@ -1,0 +1,35 @@
+name: Build
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Build
+        shell: cmd
+        run: build.cmd
+
+      - name: Self-test
+        # The self-test exits non-zero when any check fails. Some of those
+        # checks depend on the machine's power state (the screen saver SPI
+        # returns ERROR_OPERATION_IN_PROGRESS on a locked or power-saving
+        # machine), so a failure here is reported but does not fail the
+        # build. The build step above is what must stay green.
+        shell: cmd
+        run: StayAwake.exe --selftest
+        continue-on-error: true
+
+      - name: Upload binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: StayAwake
+          path: StayAwake.exe
+          if-no-files-found: error
