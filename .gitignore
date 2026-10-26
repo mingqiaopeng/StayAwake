@@ -1,0 +1,26 @@
+# Build output
+*.exe
+*.dll
+*.pdb
+*.obj
+*.ilk
+*.exp
+*.lib
+
+# Visual Studio / Rider / VS Code
+.vs/
+.vscode/
+.idea/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+*.DotSettings.user
+
+# NOTE: SA_ICON_*.png are *sources*, not artifacts.
+# They are embedded into the executable via /resource in build.cmd
+# and must be committed.
+
+# Local test / scratch output
+selftest-*.txt
+*.log
